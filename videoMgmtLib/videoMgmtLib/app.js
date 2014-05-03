@@ -57,6 +57,9 @@ app.get('/mymovies',profile.movie);
 app.post('/changepass',profile.changepassworddb);
 app.get('/changepass',profile.changepassword);
 app.get('/home',loginMgmt.homepage);
+app.get('/showMovieList',movieHandler.showMovieList);
+app.get('/nextPage/:movieIndex',movieHandler.nextPage);
+app.get('/lastPage/:movieIndex',movieHandler.lastPage);
 app.get('/index.ejs', function(req, res){
 	res.render('index.ejs');
 });

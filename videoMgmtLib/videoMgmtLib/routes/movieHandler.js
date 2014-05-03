@@ -95,6 +95,64 @@ exports.unPublish = function (req, res) {
 	});
 };
 
+exports.showMovieList = function (req, res) {
+	var ejs = require("ejs");
+	var sqlquery = require('./dbConnectivity/mysqlQuery');
+	//connection.escape(userId) to avoid SQL Injection attacks
+	var searchCriteria = req.param('search');
+	var category = req.param('category');
+	req.session.index = 0;
+	console.log('search criteria  '+ searchCriteria );
+	var sqlStmt = "select * from MOVIES where "+category+" like '%"+ searchCriteria +"%'";
+	var params = [];
+	sqlquery.execQuery(sqlStmt, params, function(err, rows) {
+		console.log(rows.length);
+		if(rows.length !== 0) {
+			req.session.movielist = rows;
+			req.session.datalength = rows.length;
+			req.session.currentPage = 1;
+		ejs.renderFile('movielist.ejs',
+			{movieResults:rows,index:req.session.index,datalength:req.session.datalength,currentPage:req.session.currentPage},
+			function(err, result) {
+			if (!err) {res.end(result);}
+			else {res.end('An error occurred');console.log(err);}
+			});
+		}
+		else
+		{
+			console.log('no data found');
+		}
+	});
+};
+
+exports.nextPage = function (req, res) {
+	var ejs = require("ejs");
+	req.session.index = req.param('movieIndex');
+	console.log(req.param('movieIndex'));
+	req.session.currentPage = req.session.currentPage +1;
+		ejs.renderFile('movielist.ejs',
+		{movieResults:req.session.movielist, index:req.session.index,datalength:req.session.datalength,currentPage:req.session.currentPage},
+		function(err, result) {
+		if (!err) {res.end(result);}
+		else {res.end('An error occurred');console.log(err);}
+		});
+};
+
+exports.lastPage = function (req, res) {
+	var ejs = require("ejs");
+	if(req.param('movieIndex')<10)
+	{req.session.index = 0;}
+	else
+	{req.session.index = req.param('movieIndex')-10;}
+	console.log(req.session.index);
+	req.session.currentPage = req.session.currentPage -1;
+		ejs.renderFile('movielist.ejs',
+		{movieResults:req.session.movielist, index:req.session.index,datalength:req.session.datalength,currentPage:req.session.currentPage},
+		function(err, result) {
+		if (!err) {res.end(result);}
+		else {res.end('An error occurred');console.log(err);}
+		});
+};
 /*
  * 
 	var query = require('./dbConnectivity/mysqlQuery');
@@ -116,38 +174,4 @@ exports.unPublish = function (req, res) {
 					res.statusCode = 302;
 					res.redirect(backURL);
 				} else {
-					res.render('index', { titile: 'A2Z', layout:false, locals: { username: req.session.username, message: lastLoginTS}});
-					sqlStmt = 'update login_detail set last_login_ts = ? where user_id = ?';
-					params = [new Date(), req.param('email')];
-					query.execQuery(sqlStmt, params, function(err, rows) {
-						if (err) {
-							console.log('Error in logging the time stamp');
-						}
-					});
-				}
-				isLoggedIn = true;
-			} else {
-				res.render('login', { title: 'Login', layout:false, locals: { errorMessage: "Invalid Login. Try again."}});
-			}
-		}
-	});
- */
-/*exports.registerCustomer = function (req, res) {
-	var query = require('./dbConnectivity/mysqlQuery');
-	//connection.escape(userId) to avoid SQL Injection attacks
-	var sqlStmt = "insert into login_detail values(?,?,?,?,null)";
-	var params = [req.param('fName'), req.param('lName'), req.param('email'), req.param('password')];
-	query.execQuery(sqlStmt, params, function(err, rows) {
-		if (!err) {
-			console.log("DATA : "+JSON.stringify(rows));
-			if(rows.length !== 0){
-				res.render('login', { title: 'Login', layout:false, locals: { errorMessage: ""}});
-			}
-		} else {
-			console.log("Error executing query");
-			res.status = 500;
-			res.render('register', {title: 'Register', layout:false, locals: { errorMessage: "Problem in registeration. Please try again with correct values!"}});
-		}
-	});
-};
- */
+					res.render('index', { titile: 'A2Z', layout:false, locals: { username: req.ses*/
