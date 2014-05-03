@@ -102,11 +102,9 @@ exports.showMovieList = function (req, res) {
 	var searchCriteria = req.param('search');
 	var category = req.param('category');
 	req.session.index = 0;
-	console.log('search criteria  '+ searchCriteria );
 	var sqlStmt = "select * from MOVIES where "+category+" like '%"+ searchCriteria +"%'";
 	var params = [];
 	sqlquery.execQuery(sqlStmt, params, function(err, rows) {
-		console.log(rows.length);
 		if(rows.length !== 0) {
 			req.session.movielist = rows;
 			req.session.datalength = rows.length;
@@ -128,7 +126,6 @@ exports.showMovieList = function (req, res) {
 exports.nextPage = function (req, res) {
 	var ejs = require("ejs");
 	req.session.index = req.param('movieIndex');
-	console.log(req.param('movieIndex'));
 	req.session.currentPage = req.session.currentPage +1;
 		ejs.renderFile('movielist.ejs',
 		{movieResults:req.session.movielist, index:req.session.index,datalength:req.session.datalength,currentPage:req.session.currentPage},
@@ -144,7 +141,6 @@ exports.lastPage = function (req, res) {
 	{req.session.index = 0;}
 	else
 	{req.session.index = req.param('movieIndex')-10;}
-	console.log(req.session.index);
 	req.session.currentPage = req.session.currentPage -1;
 		ejs.renderFile('movielist.ejs',
 		{movieResults:req.session.movielist, index:req.session.index,datalength:req.session.datalength,currentPage:req.session.currentPage},
@@ -153,25 +149,3 @@ exports.lastPage = function (req, res) {
 		else {res.end('An error occurred');console.log(err);}
 		});
 };
-/*
- * 
-	var query = require('./dbConnectivity/mysqlQuery');
-	//connection.escape(userId) to avoid SQL Injection attacks
-	var sqlStmt = "select count(*) as isValidLogin, last_login_ts as lastLoginTS from login_detail where user_id=? and password=?";
-	var isLoggedIn = false;
-	var lastLoginTS = null;
-	var params = [req.param('email'), req.param('password')];
-	query.execQuery(sqlStmt, params, function(err, rows) {
-		console.log(rows);
-		if(rows.length !== 0) {
-			if (rows[0].isValidLogin === 1) {
-				lastLoginTS = rows[0].lastLoginTS;
-				req.session.username = req.param('email');
-				req.session.isLoggedin = true;
-				var backURL=req.header('Referer') || '/';
-				console.log(backURL);
-				if (backURL.indexOf('login', 0) === -1 && backURL.indexOf('register', 0) === -1) {
-					res.statusCode = 302;
-					res.redirect(backURL);
-				} else {
-					res.render('index', { titile: 'A2Z', layout:false, locals: { username: req.ses*/
