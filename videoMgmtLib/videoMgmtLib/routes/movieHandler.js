@@ -128,9 +128,14 @@ exports.showMovieList = function (req, res) {
 exports.nextPage = function (req, res) {
 	//var ejs = require("ejs");
 	req.session.index = req.param('movieIndex');
+	req.session.movielist = req.param('hidden_mlist');
+	req.session.currentPage = req.param('hidden_current') +1;
+	req.session.datalength = req.param('hidden_datalength');
 	console.log(req.param('movieIndex'));
 	console.log(req.param("hidden_mlist"));
-	req.session.currentPage = req.session.currentPage +1;
+	console.log(req.param("hidden_currentPage"));
+	console.log(req.param("hidden_datalength"));
+	//req.session.currentPage = req.session.currentPage +1;
 		res.render('movielist.ejs',
 		{movieResults:req.session.movielist, index:req.session.index,datalength:req.session.datalength,currentPage:req.session.currentPage},
 		function(err, result) {
@@ -141,6 +146,10 @@ exports.nextPage = function (req, res) {
 
 exports.lastPage = function (req, res) {
 	//var ejs = require("ejs");
+	//req.session.index = req.param('movieIndex');
+	req.session.movielist = req.param('hidden_mlist');
+	req.session.currentPage = req.param('hidden_current') ;
+	req.session.datalength = req.param('hidden_datalength');
 	if(req.param('movieIndex')<10)
 	{req.session.index = 0;}
 	else

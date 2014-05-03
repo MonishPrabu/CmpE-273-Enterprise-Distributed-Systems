@@ -130,6 +130,12 @@ app.post('/movie/cart/add/:m_id', cart.add);
 app.post('/movie/cart/remove/:m_id', cart.remove);
 app.get('/movie/cart/show/:m_id', cart.view);		
 
+/*cron job login*/
+var CronJob = require('cron').CronJob;
+new CronJob('00 23 17 * * *', function(){
+	console.log('code executed');
+    calculateFine();
+}, null, true, "America/Los_Angeles");
 
 //Member Search Results 
 app.get('/members', function(req, res){
