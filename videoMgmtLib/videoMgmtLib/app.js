@@ -57,7 +57,7 @@ app.get('/mymovies',profile.movie);
 app.post('/changepass',profile.changepassworddb);
 app.get('/changepass',profile.changepassword);
 app.get('/home',loginMgmt.homepage);
-app.get('/showMovieList',movie.showMovieList);
+app.post('/showMovieList',movie.showMovieList);
 app.get('/nextPage/:movieIndex',movie.nextPage);
 app.get('/lastPage/:movieIndex',movie.lastPage);
 app.get('/index.ejs', function(req, res){
@@ -72,8 +72,7 @@ app.get('/adminlogin.ejs', function(req, res){
 
 app.get('/userreg.ejs', function(req, res){
 	res.render('userreg.ejs',
-	{title : "My Comment",
-	rows : "At this time i m null"});
+	{admin_fname: req.session.admin_fname});
 	
 	});
 
@@ -107,7 +106,21 @@ app.get('/registermovie', function(req, res){
 app.post('/val', adduser.insert);
 //app.post('/valmovie', addmovie.insertmovie);
 
+
+//Admin Login Validated and Redirection to Home Page (admin)
 app.post('/validate', fetchadmin.fetchdata);
+//Admin Logout
+app.get('/logout', fetchadmin.logout);
+//Admin Home Page (Shows Up only when logged in)
+app.get('/admin_home', function(req, res){
+	if(req.session.admin_fname != null){
+		res.render('admin_home', {
+			admin_fname: req.session.admin_fname
+		});
+	}
+});
+
+
 
 //To handle movie details: Show specific movie details, Update movie, Delete movie, and Add to cart. 
 app.get('/movie/show/:m_id', movie.show);

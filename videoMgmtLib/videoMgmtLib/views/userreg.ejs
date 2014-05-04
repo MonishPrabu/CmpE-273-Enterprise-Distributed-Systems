@@ -24,8 +24,6 @@
 <script type="text/javascript" src="js/jquery.backstretch.min.js"></script>
 <script type="text/javascript" src="js/mediaelement.min.js"></script>
 <script type="text/javascript" src="js/mediaelementplayer.min.js"></script>
-<script type="text/javascript" src="js/jquery.dcflickr.1.0.js"></script>
-<script type="text/javascript" src="js/twitter.min.js"></script>
 <script type="text/javascript">
 	$.backstretch("images/bg/1.jpg");
 </script>
@@ -94,9 +92,11 @@
 	<div class="header">
 		<!-- Begin Logo -->
 		<div class="logo">
-		    <a href="index.ejs">
-				<img src="images/logo.png" alt="" />
-			</a>
+		    <% if (admin_fname != null) { %>
+		    	Welcome, <%= admin_fname %>
+		    <% } else { %>
+		    	Welcome
+		    <% } %>
 	    </div>
 		<!-- End Logo -->
 		<!-- Begin Menu -->
@@ -104,25 +104,16 @@
 			<div id="menu" class="menu">
 				<ul id="tiny">
 				<li class="active">
-				<a href="index.ejs">Home</a>  </li>
-				<!-- <li><a href="#"> User Login </a> </li> -->
-						<!-- <ul>
-							<li><a href="adminlogin.ejs">Blog Post</a></li>
-						</ul>-->
-					</li>
-					<!-- <li><a href="page-with-sidebar.ejs">Pages</a> -->
-						<!-- <ul>
-						 <li><a href="page-with-sidebar.ejs">Page With Sidebar</a></li>
-							 <li><a href="full-width.ejs">Full Width</a></li> 
-						</ul> -->
-					</li>
-					<!-- <li><a href="typography.ejs">Styles</a> -->
-					<!--<ul>
-							 <li><a href="typography.ejs"> Typography </a></li> 
-								 <li><a href="columns.ejs">Columns</a></li> 
-						</ul>-->
-					</li>
-					 <!-- <li><a href="contact.ejs">Contact</a></li> -->
+				<a href="admin_home">Home</a> </li>
+				<li><a href="userreg.ejs">Register New User </a></li>
+				<li><a href="/registermovie">Register New Movie </a></li>
+				
+				<% if (admin_fname != null) { %>
+					<li><a href="/logout">Logout</a></li>
+				<% } else { %>
+				<% } %>
+				
+						
 				</ul>
 			</div>
 		</div>
@@ -131,6 +122,7 @@
 	</div>
 </div>
 <!-- End Header -->
+
 
 <!-- Begin Wrapper -->
 <div class="wrapper"><!-- Begin Intro -->

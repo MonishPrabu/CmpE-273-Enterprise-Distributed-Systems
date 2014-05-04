@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Movie List</title>
-<link rel="stylesheet" type="text/css" media="all" href="http://localhost:2014/stylesheets/style.css" />
-<link rel="stylesheet" type="text/css" href="http://localhost:2014/stylesheets/media-queries.css" />
-<link rel="stylesheet" type="text/css" href="http://localhost:2014/js/player/mediaelementplayer.css" />
+<link rel="stylesheet" type="text/css" media="all" href="http://localhost:4400/stylesheets/style.css" />
+<link rel="stylesheet" type="text/css" href="http://localhost:4400/stylesheets/media-queries.css" />
+<link rel="stylesheet" type="text/css" href="http://localhost:4400/js/player/mediaelementplayer.css" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,700,700italic|Open+Sans+Condensed:300,700' rel="stylesheet" type='text/css'>
 <!--[if IE 8]>
-<link rel="stylesheet" type="text/css" href="http://localhost:2014/stylesheets/ie8.css" media="all" />
+<link rel="stylesheet" type="text/css" href="http://localhost:4400/stylesheets/ie8.css" media="all" />
 <![endif]-->
 <!--[if IE 9]>
-<link rel="stylesheet" type="text/css" href="http://localhost:2014/stylesheets/ie9.css" media="all" />
+<link rel="stylesheet" type="text/css" href="http://localhost:4400/stylesheets/ie9.css" media="all" />
 <![endif]-->
 <style>
 .button {
@@ -26,18 +26,18 @@
     float:left;
 }
 </style>
-<script type="text/javascript" src="http://localhost:2014/js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="http://localhost:2014/js/ddsmoothmenu.js"></script>
-<script type="text/javascript" src="http://localhost:2014/js/retina.js"></script>
-<script type="text/javascript" src="http://localhost:2014/js/selectnav.js"></script>
-<script type="text/javascript" src="http://localhost:2014/js/jquery.masonry.min.js"></script>
-<script type="text/javascript" src="http://localhost:2014/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="http://localhost:2014/js/jquery.backstretch.min.js"></script>
-<script type="text/javascript" src="http://localhost:2014/js/mediaelement.min.js"></script>
-<script type="text/javascript" src="http://localhost:2014/js/mediaelementplayer.min.js"></script>
-<script type="text/javascript" src="http://localhost:2014/js/jquery.dcflickr.1.0.js"></script>
-<script type="text/javascript" src="http://localhost:2014/js/twitter.min.js"></script>
-<script type="text/javascript" src="http://localhost:2014/js/oneSimpleTablePaging-1.0.js"></script>
+<script type="text/javascript" src="http://localhost:4400/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="http://localhost:4400/js/ddsmoothmenu.js"></script>
+<script type="text/javascript" src="http://localhost:4400/js/retina.js"></script>
+<script type="text/javascript" src="http://localhost:4400/js/selectnav.js"></script>
+<script type="text/javascript" src="http://localhost:4400/js/jquery.masonry.min.js"></script>
+<script type="text/javascript" src="http://localhost:4400/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="http://localhost:4400/js/jquery.backstretch.min.js"></script>
+<script type="text/javascript" src="http://localhost:4400/js/mediaelement.min.js"></script>
+<script type="text/javascript" src="http://localhost:4400/js/mediaelementplayer.min.js"></script>
+<script type="text/javascript" src="http://localhost:4400/js/jquery.dcflickr.1.0.js"></script>
+<script type="text/javascript" src="http://localhost:4400/js/twitter.min.js"></script>
+<script type="text/javascript" src="http://localhost:4400/js/oneSimpleTablePaging-1.0.js"></script>
 
 <script>
 (function(document) {
@@ -81,7 +81,7 @@
 })(document);
 </script>
 <script type="text/javascript">
-	$.backstretch("http://localhost:2014/images/bg/1.jpg");
+	$.backstretch("http://localhost:4400/images/bg/1.jpg");
 </script>
 </head>
 <body>
@@ -93,7 +93,7 @@
 		<!-- Begin Logo -->
 		<div class="logo">
 		    <a href="index.ejs">
-				<img src="http://localhost:2014/images/logo.png" alt="" />
+				<img src="http://localhost:4400/images/logo.png" alt="" />
 			</a>
 	    </div>
 		<!-- End Logo -->
@@ -173,13 +173,16 @@
 	<table>
 	<tr>
 		<td>
-			<td><a href="http://localhost:2014/lastPage/<%=movieIndex%>"><font color="blue">LastPage<<</font></a></td>
+			<td><a href="http://localhost:4400/lastPage/<%=movieIndex%>"><font color="blue">LastPage<<</font></a></td>
 		</td>
 		<td>
 			<font color="black">-  CurrentPage : <%=currentPage%>   -</font>
 		</td>
 		<td>
-			<td><a href="http://localhost:2014/nextPage/<%=movieIndex%>"><font color="blue"> >>NextPage </font></a></td>
+		<form name="formname" method="get" action="/nextPage/<%=movieIndex%>">
+			<input type='hidden'  name='hidden_mlist' id='hidden_mlist' value="<%= movieResults %>" />
+			<input type="submit" name="submit" value="next"/>
+		</form>
 		</td>
 	</tr>
 	</table>
@@ -187,6 +190,6 @@
 </div>
 </div>
 
-<script type="text/javascript" src="http://localhost:2014/js/scripts.js"></script>
+<script type="text/javascript" src="http://localhost:4400/js/scripts.js"></script>
 </body>
 </html>
